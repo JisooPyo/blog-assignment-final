@@ -19,11 +19,11 @@ public class User {
 	private String password;
 	@Column(nullable = false)
 	private LocalDate birthday;
+	private String introduction;
+	private Long kakaoId;
 	@Column(nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	private UserRoleEnum role;
-	private String introduction;
-	private Long kakaoId;
 	@CreatedDate
 	@Column(updatable = false)
 	@Temporal(TemporalType.DATE)
