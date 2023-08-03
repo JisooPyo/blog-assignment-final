@@ -38,3 +38,4 @@ out/
 
 ### properties ###
 application-db.properties
+application-security.properties
