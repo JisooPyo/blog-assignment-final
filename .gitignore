@@ -39,3 +39,6 @@ out/
 ### properties ###
 application-db.properties
 application-security.properties
+
+### querydsl로 만들어진 QEntity ###
+/src/main/generated/
