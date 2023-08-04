@@ -3,12 +3,14 @@ package sparta.blogfinal.post.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import sparta.blogfinal.common.entity.TimeStamped;
 import sparta.blogfinal.post.dto.PostRequestDto;
 import sparta.blogfinal.user.entity.User;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class Post extends TimeStamped {
 	@Id
