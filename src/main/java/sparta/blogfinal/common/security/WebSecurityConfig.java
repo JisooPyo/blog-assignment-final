@@ -54,8 +54,8 @@ public class WebSecurityConfig {
 		http.authorizeHttpRequests((authorizeHttpRequests) ->
 				authorizeHttpRequests
 						.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-						.requestMatchers("/kp3c/user/signup").permitAll()
-						.requestMatchers("/kp3c/user/login").permitAll()
+						.requestMatchers("/api/user/signup").permitAll()
+						.requestMatchers("/api/user/login").permitAll()
 						.anyRequest().authenticated()
 		);
 
