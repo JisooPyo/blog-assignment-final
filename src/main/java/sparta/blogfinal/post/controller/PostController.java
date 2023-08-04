@@ -31,7 +31,9 @@ public class PostController {
 	// 전체 포스트 조회
 	@GetMapping("/posts")
 	public ResponseEntity<List<PostResponseDto>> getPosts() {
-		return null;
+		List<PostResponseDto> results = postService.getPosts();
+
+		return ResponseEntity.ok().body(results);
 	}
 
 	// 선택 포스트 조회

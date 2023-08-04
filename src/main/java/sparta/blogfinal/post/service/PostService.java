@@ -8,6 +8,9 @@ import sparta.blogfinal.post.entity.Post;
 import sparta.blogfinal.post.repository.PostRepository;
 import sparta.blogfinal.user.entity.User;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -20,5 +23,13 @@ public class PostService {
 
 		postRepository.save(post);
 		return new PostResponseDto(post);
+	}
+
+	public List<PostResponseDto> getPosts() {
+		List<PostResponseDto> postList = postRepository.findAllByOrderByCreatedAtDesc()
+				.stream()
+				.map(PostResponseDto::new)
+				.collect(Collectors.toList());
+		return postList;
 	}
 }
