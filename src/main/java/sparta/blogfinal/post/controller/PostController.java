@@ -39,7 +39,9 @@ public class PostController {
 	// 선택 포스트 조회
 	@GetMapping("/posts/{id}")
 	public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id){
-		return null;
+		PostResponseDto result = postService.getPostById(id);
+
+		return ResponseEntity.ok().body(result);
 	}
 
 	// 포스트 수정
