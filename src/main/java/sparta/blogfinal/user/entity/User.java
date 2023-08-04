@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Getter
@@ -31,5 +32,15 @@ public class User {
 	@Temporal(TemporalType.DATE)
 	private LocalDate createdAt;
 
+	public User(String email, String nickname, String password, LocalDate birthday, UserRoleEnum role) {
+		this.email = email;
+		this.nickname = nickname;
+		this.password = password;
+		this.birthday = birthday;
+		this.role = role;
+	}
 
+	public void updateIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
 }
