@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Getter
 public class SignupRequestDto {
-	@Email
-	@NotBlank
+	@Email @NotBlank
 	private String email;
 
 	@NotBlank
@@ -22,7 +22,7 @@ public class SignupRequestDto {
 	@Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]*$", message = "비밀번호는 알파벳 대소문자(a~z, A~Z), 숫자(0~9), 특수문자로 구성되어야 합니다.")
 	private String password;
 
-	@NotBlank
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthday; // 2023-08-04
 
 	private String introduction;
