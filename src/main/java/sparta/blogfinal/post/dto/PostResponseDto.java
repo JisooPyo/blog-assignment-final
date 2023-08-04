@@ -1,10 +1,12 @@
 package sparta.blogfinal.post.dto;
 
+import lombok.Getter;
 import sparta.blogfinal.common.dto.ApiResponseDto;
 import sparta.blogfinal.post.entity.Post;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class PostResponseDto extends ApiResponseDto {
 	private Long id;
 	private String nickname;

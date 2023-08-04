@@ -24,7 +24,8 @@ public class PostController {
 	@PostMapping("/posts")
 	public ResponseEntity<PostResponseDto> createPost(@AuthenticationPrincipal UserDetailsImpl userDetails,
 													  @RequestBody PostRequestDto requestDto){
-		return null;
+		PostResponseDto result = postService.createPost(requestDto, userDetails.getUser());
+		return ResponseEntity.status(201).body(result);
 	}
 
 	// 전체 포스트 조회

@@ -2,11 +2,14 @@ package sparta.blogfinal.post.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import sparta.blogfinal.common.entity.TimeStamped;
+import sparta.blogfinal.post.dto.PostRequestDto;
 import sparta.blogfinal.user.entity.User;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Post extends TimeStamped {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +22,15 @@ public class Post extends TimeStamped {
 	private String contents;
 
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name = "userId")
 	private User user;
+
+	public Post(PostRequestDto requestDto) {
+		this.title = requestDto.getTitle();
+		this.contents = requestDto.getContents();
+	}
+
+	public void updateUser(User user) {
+		this.user = user;
+	}
 }
