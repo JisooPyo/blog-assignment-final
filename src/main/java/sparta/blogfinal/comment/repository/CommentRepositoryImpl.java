@@ -8,6 +8,8 @@ import sparta.blogfinal.post.entity.Post;
 
 import java.util.List;
 
+import static sparta.blogfinal.comment.entity.QComment.comment;
+
 @Repository
 @RequiredArgsConstructor
 public class CommentRepositoryImpl implements CommentCustomRepository {
@@ -16,6 +18,13 @@ public class CommentRepositoryImpl implements CommentCustomRepository {
 
 	@Override
 	public List<Comment> findAllCommentsByPost(Post post) {
-		return null;
+		return queryFactory.selectFrom(comment)
+				.leftJoin(comment.parent)
+				.fetchJoin()
+				.where(comment.post.id.eq(post.getId()))
+				.orderBy(
+						comment.parent.id.asc().nullsFirst(),
+						comment.createdAt.asc()
+				).fetch();
 	}
 }

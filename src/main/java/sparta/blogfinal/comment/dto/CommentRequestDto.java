@@ -7,6 +7,6 @@ import lombok.Getter;
 public class CommentRequestDto {
 	private Long parentId;
 
-	@NotNull(message="내용을 입력하세요.")
+	@NotNull(message = "내용을 입력하세요.")
 	private String contents;
 }

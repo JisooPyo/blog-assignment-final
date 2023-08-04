@@ -12,6 +12,11 @@ import sparta.blogfinal.post.repository.PostRepository;
 import sparta.blogfinal.user.entity.User;
 import sparta.blogfinal.user.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -33,7 +38,7 @@ public class CommentService {
 		Comment comment = new Comment(requestDto.getContents(), post, user);
 
 		// 대댓글인 경우
-		if(parent != null){
+		if (parent != null) {
 			comment.updateParent(parent);
 		}
 
@@ -42,7 +47,11 @@ public class CommentService {
 		return responseDto;
 	}
 
-
+	public List<CommentResponseDto> getCommentsByPostId(Long postId) {
+		Post post = findPost(postId);
+		List<Comment> commentList = commentRepository.findAllCommentsByPost(post);
+		return convertNestedStructure(commentList);
+	}
 
 	/////////////////////////////////////////////////////////////////////////////////
 
@@ -62,5 +71,17 @@ public class CommentService {
 		return commentRepository.findById(parentId).orElseThrow(() ->
 				new EntityNotFoundException("부모댓글이 존재하지 않습니다.")
 		);
+	}
+
+	private List<CommentResponseDto> convertNestedStructure(List<Comment> comments) {
+		List<CommentResponseDto> results = new ArrayList<>();
+		Map<Long, CommentResponseDto> map = new HashMap<>();
+		comments.stream().forEach(c -> {
+			CommentResponseDto responseDto = new CommentResponseDto(c);
+			map.put(responseDto.getId(), responseDto);
+			if (c.getParent() != null) map.get(c.getParent().getId()).getChildren().add(responseDto);
+			else results.add(responseDto);
+		});
+		return results;
 	}
 }

@@ -23,9 +23,8 @@ public class CommentController {
 	// 선택한 게시글에 대한 모든 댓글 조회
 	@GetMapping("/posts/{postId}/comments")
 	public ResponseEntity<List<CommentResponseDto>> getCommentsByPostId(@PathVariable Long postId) {
-//		List<CommentResponseDto> results = commentService.getCommentsByPostId(postId);
-//		return ResponseEntity.ok().body(results);
-		return null;
+		List<CommentResponseDto> results = commentService.getCommentsByPostId(postId);
+		return ResponseEntity.ok().body(results);
 	}
 
 	// 댓글 작성
