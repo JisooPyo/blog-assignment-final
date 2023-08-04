@@ -40,9 +40,27 @@ public class CommentController {
 					.body(new ApiResponseDto(enf.getMessage(), HttpStatus.NOT_FOUND.value()));
 		}
 	}
+
 	// 선택한 댓글 수정
+	@PutMapping("/posts/{postId}/comments/{id}")
+	public ResponseEntity<ApiResponseDto> updateComment(@PathVariable Long postId,
+														@PathVariable Long id,
+														@RequestBody CommentRequestDto requestDto,
+														@AuthenticationPrincipal UserDetailsImpl userDetails) {
+		commentService.updateComment(postId, id, requestDto, userDetails.getUser());
+		return ResponseEntity.ok().body(
+				new ApiResponseDto("댓글 수정 성공", HttpStatus.OK.value())
+		);
+	}
 
 	// 선택한 댓글 삭제
+	@DeleteMapping("/posts/{postId}/comments/{id}")
+	public ResponseEntity<ApiResponseDto> deleteComment(@PathVariable Long postId,
+														@PathVariable Long id,
+														@AuthenticationPrincipal UserDetailsImpl userDetails) {
+		commentService.deleteComment(postId, id, userDetails.getUser());
+		return ResponseEntity.ok().body(new ApiResponseDto("댓글 삭제 완료", HttpStatus.OK.value()));
+	}
 
-	///////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
 }

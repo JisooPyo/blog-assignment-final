@@ -3,6 +3,7 @@ package sparta.blogfinal.comment.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import sparta.blogfinal.comment.dto.CommentRequestDto;
 import sparta.blogfinal.common.entity.TimeStamped;
 import sparta.blogfinal.post.entity.Post;
 import sparta.blogfinal.user.entity.User;
@@ -45,5 +46,10 @@ public class Comment extends TimeStamped {
 
 	public void updateParent(Comment parent) {
 		this.parent = parent;
+	}
+
+
+	public void update(CommentRequestDto requestDto) {
+		this.contents = requestDto.getContents();
 	}
 }

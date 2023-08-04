@@ -3,6 +3,7 @@ package sparta.blogfinal.comment.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sparta.blogfinal.comment.dto.CommentRequestDto;
 import sparta.blogfinal.comment.dto.CommentResponseDto;
 import sparta.blogfinal.comment.entity.Comment;
@@ -10,12 +11,14 @@ import sparta.blogfinal.comment.repository.CommentRepository;
 import sparta.blogfinal.post.entity.Post;
 import sparta.blogfinal.post.repository.PostRepository;
 import sparta.blogfinal.user.entity.User;
+import sparta.blogfinal.user.entity.UserRoleEnum;
 import sparta.blogfinal.user.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.RejectedExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +56,18 @@ public class CommentService {
 		return convertNestedStructure(commentList);
 	}
 
+	@Transactional
+	public void updateComment(Long postId, Long id, CommentRequestDto requestDto, User user) {
+		isAccessible(postId, id, user);
+		Comment comment = findComment(id);
+		comment.update(requestDto);
+	}
+
+	public void deleteComment(Long postId, Long id, User user) {
+		isAccessible(postId, id, user);
+		commentRepository.deleteById(id);
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////
 
 	private User findUser(Long id) {
@@ -83,5 +98,19 @@ public class CommentService {
 			else results.add(responseDto);
 		});
 		return results;
+	}
+
+	private void isAccessible(Long postId, Long commentId, User user) {
+		Comment comment = findComment(commentId);
+
+		if (postId != findComment(commentId).getPost().getId()) {
+			throw new EntityNotFoundException("해당 페이지를 찾을 수 없습니다.");
+		}
+
+		User targetUser = findUser(user.getId());
+
+		if (!(targetUser.getRole().equals(UserRoleEnum.ADMIN) || comment.getUser().equals(targetUser))) {
+			throw new RejectedExecutionException("작성자만 접근할 수 있습니다.");
+		}
 	}
 }
