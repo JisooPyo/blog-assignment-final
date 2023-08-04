@@ -22,7 +22,7 @@ public class PostService {
 
 	public PostResponseDto createPost(PostRequestDto requestDto, User user) {
 		Post post = new Post(requestDto);
-		post.updateUser(user);
+		post.setUser(user);
 
 		postRepository.save(post);
 		return new PostResponseDto(post);
