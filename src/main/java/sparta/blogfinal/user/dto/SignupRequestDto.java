@@ -23,10 +23,11 @@ public class SignupRequestDto {
 	private String password;
 
 	@NotBlank
-	private String birthday; // 20230804
+	private LocalDate birthday; // 2023-08-04
 
 	private String introduction;
 
 	private boolean admin = false;
+
 	private String adminToken = "";
 }
