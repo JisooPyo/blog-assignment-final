@@ -56,6 +56,16 @@ public class PostService {
 
 	}
 
+	public void deletePost(Long id, User user) {
+		Post post = findPost(id);
+
+		if (!(user.getRole().equals(UserRoleEnum.ADMIN) || post.getUser().getId().equals(user.getId()))) {
+			throw new RejectedExecutionException();
+		}
+
+		postRepository.deleteById(post.getId());
+	}
+
 	/////////////////////////////////////////////////////////////
 
 	private Post findPost(Long id) {
@@ -63,6 +73,5 @@ public class PostService {
 				new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
 		);
 	}
-
 
 }

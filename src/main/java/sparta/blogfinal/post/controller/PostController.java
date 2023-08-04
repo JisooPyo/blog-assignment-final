@@ -63,7 +63,12 @@ public class PostController {
 	@DeleteMapping("/posts/{id}")
 	public ResponseEntity<ApiResponseDto> deletePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
 													 @PathVariable Long id) {
-		return null;
+		try {
+			postService.deletePost(id, userDetails.getUser());
+			return ResponseEntity.ok().body(new ApiResponseDto("게시글 삭제 성공", HttpStatus.OK.value()));
+		} catch (RejectedExecutionException e) {
+			return ResponseEntity.badRequest().body(new ApiResponseDto("작성자만 삭제 할 수 있습니다.", HttpStatus.BAD_REQUEST.value()));
+		}
 	}
 
 
