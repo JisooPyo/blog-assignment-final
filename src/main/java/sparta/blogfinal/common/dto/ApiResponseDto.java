@@ -5,9 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class ApiResponseDto {
 	private String msg;
 	private Integer statusCode;
+
+	public ApiResponseDto(String msg, Integer statusCode) {
+		this.msg = msg;
+		this.statusCode = statusCode;
+	}
 }
